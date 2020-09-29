@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mon application débile</string>
+    <string name="invit_msg">Entrer un mot</string>
+    <string name="go_btn">Go</string>
+</resources>
