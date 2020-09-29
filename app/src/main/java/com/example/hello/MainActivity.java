@@ -2,12 +2,17 @@ package com.example.hello;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+    // string constante qui est liée à la classe et non à l'objet
+    // MainActivity.keyMessage pour y accéder directement grâce à static
+    // pas static MainActivity ma = new MainActivity(). ma.keyMessage si pas static
+    public final static String keyMessage = "com.example.hello.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +30,10 @@ public class MainActivity extends AppCompatActivity {
         EditText inputUser = (EditText) findViewById(R.id.inputText);
         String mot = inputUser.getText().toString();
         Log.d("message",mot);
+        // pour communiquer entre les activités : Intent
+        // ~mémoire partagé de toutes les activités d'une appli
+        Intent intent = new Intent(this, ShowWordActivity.class);
+        intent.putExtra(keyMessage, mot);
+        startActivity(intent);
     }
 }
