@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
             // ajouter la citation dans la vue
             addQuoteView(q);
         }
-        Log.d("QUOTE","" + quotes.size());
     }
 
     public void addQuote(View view){
@@ -46,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         int ratingQuote = ((RatingBar) findViewById(R.id.quote_rating)).getNumStars();
         Quote q = new Quote(stringQuote,ratingQuote, LocalDate.now());
         quotes.add(q);
-        Log.d("QUOTE","" + quotes.size());
-        Log.d("QUOTE",quotes.get(quotes.size()-1).getStrQuote());
         // affiche la nouvelle citation dans la vue
         addQuoteView(q);
     }
