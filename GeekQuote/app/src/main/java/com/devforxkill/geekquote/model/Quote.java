@@ -1,9 +1,12 @@
 package com.devforxkill.geekquote.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 // Javabean c'est une classe qui a les attributs privées, au moins constructeur et les getter/setter
-public class Quote {
+// Serializable permet de stocker un objet sous forme de byte avec un identifiant unique
+// Tous les objets de java sont sérializable de base (Strgin, Arraylist, LocalDate...)
+public class Quote implements Serializable {
 
     private String strQuote;
     private int rating;
@@ -37,5 +40,10 @@ public class Quote {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return strQuote;
     }
 }

@@ -1,15 +1,21 @@
 package com.devforxkill.geekquote;
 
+import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.devforxkill.geekquote.model.Quote;
+import com.devforxkill.geekquote.model.QuoteListAdapter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,13 +24,40 @@ public class MainActivity extends AppCompatActivity {
 
     // tableau dynamique de Quotes
     private ArrayList<Quote> quotes;
+    private QuoteListAdapter quoteListAdapter;
+    private ListView quoteListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         quotes = new ArrayList<>();
         setContentView(R.layout.activity_main);
+        quoteListView = (ListView) findViewById(R.id.quote_list);
+        quoteListAdapter = new QuoteListAdapter(this, android.R.layout.simple_list_item_1  , android.R.id.text1, quotes);
+        quoteListView.setAdapter(quoteListAdapter);
         initQuotes();
+
+        // gestion du click long sur les citations de la list
+        quoteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Quote quote = (Quote) quoteListView.getItemAtPosition(position);
+                Intent intent = new Intent(MainActivity.this, QuoteActivity.class);
+                intent.putExtra("quote", quote);
+                intent.putExtra("position", position);
+                // on attends de la nouvelle activité
+                startActivityForResult(intent, 1);
+                return false;
+            }
+        });
+        final TextView tv = (TextView) findViewById(R.id.quote_input);
+        tv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                tv.setText("");
+                return false;
+            }
+        });
     }
 
     private void initQuotes(){
@@ -32,26 +65,45 @@ public class MainActivity extends AppCompatActivity {
         for(String s : quoteExamples){
             // date actuelle : LocalDate.now()
             // Attention les dates sont complexes à utiliser en java
-            Quote q = new Quote(s,0, LocalDate.now());
-            quotes.add(q);
-            // ajouter la citation dans la vue
-            addQuoteView(q);
+            quotes.add(new Quote(s,0, LocalDate.now()));
+            // ajouter la citation dans la vue version du début car l'adapter cela se fait automatiquement
+            //addQuoteView(q);
         }
     }
 
     public void addQuote(View view){
         // ajouter la quote dans l array list
         String stringQuote = ((TextView) findViewById(R.id.quote_input)).getText().toString();
-        int ratingQuote = ((RatingBar) findViewById(R.id.quote_rating)).getNumStars();
-        Quote q = new Quote(stringQuote,ratingQuote, LocalDate.now());
-        quotes.add(q);
-        // affiche la nouvelle citation dans la vue
-        addQuoteView(q);
+        if(stringQuote.equals("")){
+            int ratingQuote = ((RatingBar) findViewById(R.id.quote_rating)).getNumStars();
+            Quote q = new Quote(stringQuote,ratingQuote, LocalDate.now());
+            quotes.add(q);
+            // affiche la nouvelle citation dans la vue version du début car l'adapter cela se fait automatiquement
+            // addQuoteView(q);
+        }
+
+        TextView tvinput = (TextView) findViewById(R.id.quote_input);
+        tvinput.setText(R.string.quote_invit);
     }
 
-    private void addQuoteView(Quote q) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){
+            if(resultCode == RESULT_OK){
+                // la citation renvoyée par la quote activité qui a changée
+                Quote q = (Quote) data.getExtras().get("quote");
+                int position = (Integer) data.getExtras().get("position");
+                quotes.set(position, q);
+                quoteListAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    // on va remplacer l'ajout des citations dans la vue par un mécanisme plus générique : Adaptater
+    /*private void addQuoteView(Quote q) {
         LinearLayout layout = (LinearLayout) findViewById(R.id.listscroll);
-        TextView tv = new TextView(this);
+        final TextView tv = new TextView(this);
         tv.setTextSize(32);
         tv.setText(q.getStrQuote());
         if(quotes.size() % 2 == 0){
@@ -59,6 +111,17 @@ public class MainActivity extends AppCompatActivity {
         }else{
             tv.setBackgroundResource(R.color.colorbgQuotelight);
         }
+        tv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(MainActivity.this, QuoteActivity.class);
+                intent.putExtra("quotestr", tv.getText().toString());
+                startActivity(intent);
+                return true;
+            }
+        });
         layout.addView(tv);
-    }
+        TextView tvinput = (TextView) findViewById(R.id.quote_input);
+        tvinput.setText(R.string.quote_invit);
+    }*/
 }
