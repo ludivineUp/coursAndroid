@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void addQuoteView(Quote q) {
-        LinearLayout layout = (LinearLayout) findViewById(R.id.linearlayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.listscroll);
         TextView tv = new TextView(this);
+        tv.setTextSize(32);
         tv.setText(q.getStrQuote());
         if(quotes.size() % 2 == 0){
             tv.setBackgroundResource(R.color.colorbgQuoteDark);
