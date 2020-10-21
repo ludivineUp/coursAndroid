@@ -31,16 +31,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        quotes = new ArrayList<>();
+
         setContentView(R.layout.activity_main);
-        quoteListView = (ListView) findViewById(R.id.quote_list);
-        quoteListAdapter = new QuoteListAdapter(this, android.R.layout.simple_list_item_1  , android.R.id.text1, quotes);
-        quoteListView.setAdapter(quoteListAdapter);
+
+
+        quotes = new ArrayList<>();
+
 
         // deprecated car maintenant les citation sont stockés proprement
         //initQuotes();
 
         initQuotesWithDao();
+
+        quoteListView = (ListView) findViewById(R.id.quote_list);
+        quoteListAdapter = new QuoteListAdapter(this, android.R.layout.simple_list_item_1  , android.R.id.text1, quotes);
+        quoteListView.setAdapter(quoteListAdapter);
 
         // gestion du click long sur les citations de la list
         quoteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -70,9 +75,10 @@ public class MainActivity extends AppCompatActivity {
         for(Quote q : quotes){
             Log.d("QUOTES",q.getStrQuote());
         }
-        //if(quotes == null || quotes.size() == 0){
+        // si y a rien en base pour tester l'affichage
+        if(quotes == null || quotes.size() == 0){
             initQuotes();
-        //}
+        }
         Log.d("AHHHHHHHHHHHHHHHHHHHHHHH",""+quotes.size());
     }
 

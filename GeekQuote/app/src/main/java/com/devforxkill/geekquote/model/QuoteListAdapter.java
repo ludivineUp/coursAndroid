@@ -30,6 +30,7 @@ public class QuoteListAdapter extends ArrayAdapter<Quote> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        Log.d("AHHHHHHHHHHHHHHHHHHHHHHH","getview in adaptar");
         // génère la vue d'un élément de la liste
        if (convertView == null) {
            convertView = LayoutInflater.from(getContext()).inflate(ressourcelocal, parent, false);
@@ -38,6 +39,7 @@ public class QuoteListAdapter extends ArrayAdapter<Quote> {
         Quote quote = getItem(position);
 
         if(quote != null) {
+            Log.d("AHHHHHHHHHHHHHHHHHHHHHHH","quote not null");
             final TextView tv = (TextView) convertView.findViewById(textViewResourceId);
             tv.setTextSize(32);
             if(position % 2 == 0){

@@ -51,5 +51,84 @@ Méthodes disponibles :
         }
         result.close(); // ATTENTION PENSER A FERMER LE CURSOR QUAND ON A FINI DE RECUPERER LES RESULTATS
 
+API REST simple
+    Classe de référence (fournie Apache) : HTTPClient
+
+    Each request with HttpClient follows the steps above :
+        Create an instance of HttpClient class
+        Create an instance of HttpRequest
+        Configure properties of the request
+        Execute the request with the HttpClient instance
+        Analysis and processing of the response
+
+    GET
+        public String sendGetRequest(String address) {
+          String result = null;
+
+          try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet();
+
+            URI uri = new URI("localhost...");
+            httpGet.setURI(uri);
+
+            HttpResponse response = httpClient.execute(httpGet);
+
+           result = EntityUtils.toString(response.getEntity()); // réponse sou forme de string
+
+          } catch (Exception e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+          }
+          return result;
+        }
+        public void sendPostRequest(String address, String entity) {
+          try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet post = new HttpPost();
+
+            URI uri = new URI(address);
+            post.setURI(uri);
+            post.setEntity(new StringEntity(entity));
+
+            httpClient.execute(post);
+
+          } catch (Exception e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+          }
+        }
+
+        Format de données : JSON
+        public JSONObject convertToJson(Student student) throws JSONException {
+
+        	JSONObject jsonStudent = new JSONObject();
+
+        	jsonStudent.put(ID_FIELD, student.getId());
+        	jsonStudent.put(FIRST_NAME_FIELD, student.getFirstName());
+        	jsonStudent.put(LAST_NAME_FIELD,student.getLastName());
+        	jsonStudent.put(BIRTH_DATE_FIELD, dateFormat.format(student.getBirthDate()));
+
+        	return jsonStudent;
+        }
+
+        public Student convertToStudent(JSONObject object) throws JSONException {
+          Student student = new Student();
+
+          student.setId(object.getLong(ID_FIELD));
+          student.setFirstName(object.getString(FIRST_NAME_FIELD));
+          student.setLastName(object.getString(LAST_NAME_FIELD));
+          String formatedDate = object.getString(BIRTH_DATE_FIELD);
+
+          try {
+            student.setBirthDate(dateFormat.parse(formatedDate));
+          } catch (ParseException e) {
+            Log.e(LOG_TAG, "Parse Exception!", e);
+          }
+
+          return student;
+        }
+
+
+
+
 
 
