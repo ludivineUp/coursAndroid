@@ -15,7 +15,8 @@ public class Quote implements Serializable, QuoteMapping {
     private int rating;
     private LocalDate date;
 
-    public Quote(String strQuote, int rating, LocalDate date) {
+    public Quote(int id, String strQuote, int rating, LocalDate date) {
+        this.id = id;
         this.strQuote = strQuote;
         this.rating = rating;
         this.date = date;

@@ -4,7 +4,7 @@ import android.media.Rating;
 
 public interface QuoteMapping extends BaseMapping {
 
-    public static final String STR_QUOTE = "str";
+    public static final String STR_QUOTE = "str_quote";
     public static final String RATING= "rating";
     public static final String DATE = "creation_date";
 
@@ -16,8 +16,8 @@ public interface QuoteMapping extends BaseMapping {
     public static final String DML_CREATE  =
             "CREATE TABLE "+ TABLE + " (" +
                     ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "  +
-                    STR_QUOTE + "TEXT NOT NULL, " +
-                    RATING + "TEXT NOT NULL, " +
-                    DATE + "TEXT NOT NULL);";
+                    STR_QUOTE + " TEXT NOT NULL, " +
+                    RATING + " TEXT NOT NULL, " +
+                    DATE + " TEXT NOT NULL"+");";
 
 }

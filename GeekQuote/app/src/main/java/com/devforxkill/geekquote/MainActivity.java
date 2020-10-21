@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.devforxkill.geekquote.dao.DaoFactory;
 import com.devforxkill.geekquote.model.Quote;
 import com.devforxkill.geekquote.model.QuoteListAdapter;
 
@@ -35,7 +36,11 @@ public class MainActivity extends AppCompatActivity {
         quoteListView = (ListView) findViewById(R.id.quote_list);
         quoteListAdapter = new QuoteListAdapter(this, android.R.layout.simple_list_item_1  , android.R.id.text1, quotes);
         quoteListView.setAdapter(quoteListAdapter);
-        initQuotes();
+
+        // deprecated car maintenant les citation sont stockés proprement
+        //initQuotes();
+
+        initQuotesWithDao();
 
         // gestion du click long sur les citations de la list
         quoteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -60,12 +65,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initQuotesWithDao() {
+        quotes = DaoFactory.getQuoteDao(this).getQuotes();
+        for(Quote q : quotes){
+            Log.d("QUOTES",q.getStrQuote());
+        }
+        //if(quotes == null || quotes.size() == 0){
+            initQuotes();
+        //}
+        Log.d("AHHHHHHHHHHHHHHHHHHHHHHH",""+quotes.size());
+    }
+
+    //
+    // deprecated car maintenant les citation sont stockés proprement
     private void initQuotes(){
         String[] quoteExamples = getResources().getStringArray(R.array.ex_qotes);
         for(String s : quoteExamples){
             // date actuelle : LocalDate.now()
             // Attention les dates sont complexes à utiliser en java
-            quotes.add(new Quote(s,0, LocalDate.now()));
+            quotes.add(new Quote(0, s,0, LocalDate.now()));
             // ajouter la citation dans la vue version du début car l'adapter cela se fait automatiquement
             //addQuoteView(q);
         }
@@ -73,17 +91,22 @@ public class MainActivity extends AppCompatActivity {
 
     public void addQuote(View view){
         // ajouter la quote dans l array list
+        Log.d("AHHHHHHHHHHHHHHHHHHHHHHH","on addQuote "+quotes.size());
         String stringQuote = ((TextView) findViewById(R.id.quote_input)).getText().toString();
-        if(stringQuote.equals("")){
+        Log.d("AHHHHHHHHHHHHHHHHHHHHHHH","stringQuote "+stringQuote+" end");
+        if(!stringQuote.equals("")){
             int ratingQuote = ((RatingBar) findViewById(R.id.quote_rating)).getNumStars();
-            Quote q = new Quote(stringQuote,ratingQuote, LocalDate.now());
+            Quote q = new Quote(0,stringQuote,ratingQuote, LocalDate.now());
+            int id = DaoFactory.getQuoteDao(this).addQuote(q);
+            q.setId(id);
             quotes.add(q);
+
+            Log.d("AHHHHHHHHHHHHHHHHHHHHHHH","on ajoute "+quotes.size());
             // affiche la nouvelle citation dans la vue version du début car l'adapter cela se fait automatiquement
             // addQuoteView(q);
         }
-
-        TextView tvinput = (TextView) findViewById(R.id.quote_input);
-        tvinput.setText(R.string.quote_invit);
+        //TextView tvinput = (TextView) findViewById(R.id.quote_input);
+        //tvinput.setText(R.string.quote_invit);
     }
 
     @Override

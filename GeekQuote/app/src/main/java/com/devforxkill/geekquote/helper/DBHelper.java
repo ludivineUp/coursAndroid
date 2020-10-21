@@ -8,7 +8,7 @@ import com.devforxkill.geekquote.model.Quote;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME ="devxforkillquote.db";
+    private static final String DB_NAME ="quote.db";
     private static final int DB_VERSION = 2;
 
     public DBHelper(Context context){
