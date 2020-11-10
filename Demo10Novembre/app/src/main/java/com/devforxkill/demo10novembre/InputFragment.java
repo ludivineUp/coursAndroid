@@ -15,7 +15,7 @@ import android.view.ViewGroup;
  */
 public class InputFragment extends Fragment implements View.OnClickListener {
 
-    //
+    // callback
     public interface OnButtonClickedListener {
         public void onButtonClicked(View view);
     }
@@ -75,9 +75,6 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
     public void onAttach(Context context){
         super.onAttach(context);
-        createCallbackToParentActivity();
-    }
-    private void createCallbackToParentActivity(){
         try {
             //Parent activity will automatically subscribe to callback
             callback = (OnButtonClickedListener) getActivity();
