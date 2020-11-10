@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         // executor : lancer plusieurs threads en même temps de manière plus performante
         //saveData();
         readData();
+        // notification TOAST
+        Toast.makeText(getApplicationContext(), "toto", Toast.LENGTH_SHORT).show();
     }
 
     // stockage interne sous format de fichiers
@@ -70,8 +72,6 @@ public class MainActivity extends AppCompatActivity {
             while((res = br.readLine())!= null){
                 Log.d("DATA", res);
             }
-            // notification TOAST
-            Toast.makeText(this, "toto", Toast.LENGTH_SHORT).show();
 
         } catch (Exception e){
             Log.d("WRITE",e.getStackTrace().toString());
