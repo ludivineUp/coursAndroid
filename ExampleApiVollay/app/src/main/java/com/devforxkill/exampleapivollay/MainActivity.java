@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
                                         Log.d("RESPONSE", jsonObj.get("userId").toString());
                                         Log.d("RESPONSE", jsonObj.get("id").toString());
                                         // penser à caster si les attributs ne sont pas des strings !!!
+                                        // Integer.parseInt(get("id").toString()) pour un entier
+                                        // Double.parseDouble(get("id").toString()) pour un double
                                     } catch (JSONException e) {
                                         // If there is an error then output this to the logs.
                                         Log.d("Volley",  e.getStackTrace().toString());
