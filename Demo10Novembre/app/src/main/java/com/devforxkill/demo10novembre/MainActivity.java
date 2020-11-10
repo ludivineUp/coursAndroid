@@ -1,7 +1,15 @@
 package com.devforxkill.demo10novembre;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Layout;
@@ -26,6 +34,10 @@ public class MainActivity extends AppCompatActivity implements InputFragment.OnB
     private String nameFile = "example.txt";
     private OutpuFragment outpuFragment;
     private InputFragment inputFragment;
+    public static final  String CHANNEL_ID = "channel1";
+    private NotificationManagerCompat notificationManagerCompat;
+    public static final String CHANNEL_1_ID = "channel1";
+
 
     public MainActivity() {
     }
@@ -51,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements InputFragment.OnB
         }
         // executor : lancer plusieurs threads en même temps de manière plus performante
         //saveData();
-        readData();
+        //readData();
+
         // notification TOAST
         Toast.makeText(getApplicationContext(), "toto", Toast.LENGTH_SHORT).show();
 
@@ -67,8 +80,18 @@ public class MainActivity extends AppCompatActivity implements InputFragment.OnB
         outpuFragment = new OutpuFragment();
         transaction2.replace(R.id.layoutmain, outpuFragment);
         transaction2.commit();*/
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel1 = new NotificationChannel(
+                    CHANNEL_1_ID,
+                    "Channel 1",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel1.setDescription("This is channel 1");
+            NotificationManager m = this.getSystemService(NotificationManager.class);
+            m.createNotificationChannel(channel1);
+        }
 
-
+        this.notificationManagerCompat = NotificationManagerCompat.from(this);
     }
 
     // stockage interne sous format de fichiers
@@ -125,4 +148,19 @@ public class MainActivity extends AppCompatActivity implements InputFragment.OnB
                 Log.d("Fragment", "on a cliké sur le bouton");
         }
     }
+    public void createNotification(View view){
+        Log.d("NOTIF", "begin");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_1_ID)
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("My notification")
+                .setContentText("Much longer text that cannot fit one line...")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("Much longer text that cannot fit one line..."))
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+        //NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        //notificationManager.notify(0, builder.build());
+        notificationManagerCompat.notify(0, builder.build());
+        Log.d("NOTIF", "end");
+    }
+
 }
