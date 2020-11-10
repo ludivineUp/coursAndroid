@@ -3,10 +3,13 @@ package com.devforxkill.demo10novembre;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,13 +25,15 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
     private OnButtonClickedListener callback;
 
+    private EditText entreeuser;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String name;
     private String mParam2;
 
     // callback
@@ -59,7 +64,7 @@ public class InputFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            name = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -70,6 +75,9 @@ public class InputFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_input, container, false);
         result.findViewById(R.id.fragmentbutton).setOnClickListener(this);
+        entreeuser = new EditText(this.getContext());
+        entreeuser.setText("toto");
+        ((LinearLayout)result.findViewById(R.id.flayout)).addView(entreeuser);
         return result;
     }
 
@@ -85,7 +93,11 @@ public class InputFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Log.d("Fragment in", "on a cliké sur le bouton");
+        Log.d("Fragment in", "on a clické sur le bouton "+ entreeuser.getText() + " end");
         callback.onButtonClicked(v);
+    }
+
+    public EditText getEntreeuser() {
+        return entreeuser;
     }
 }

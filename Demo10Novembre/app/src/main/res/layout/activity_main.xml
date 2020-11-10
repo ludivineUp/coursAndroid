@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/layoutmain">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/myfragment"
         android:name="com.devforxkill.demo10novembre.InputFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" />-->
 
     <TextView
         android:id="@+id/textView"

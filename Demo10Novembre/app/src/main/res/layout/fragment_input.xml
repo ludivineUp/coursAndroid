@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".InputFragment">
+    tools:context=".InputFragment"
+    android:id="@+id/flayout">
 
     <EditText
         android:id="@+id/entreeuser"
