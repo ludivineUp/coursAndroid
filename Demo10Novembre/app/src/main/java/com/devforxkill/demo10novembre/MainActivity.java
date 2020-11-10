@@ -3,6 +3,7 @@ package com.devforxkill.demo10novembre;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -13,7 +14,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements InputFragment.OnButtonClickedListener {
 
     private String nameFile = "example.txt";
 
@@ -76,5 +77,10 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e){
             Log.d("WRITE",e.getStackTrace().toString());
         }
+    }
+
+    @Override
+    public void onButtonClicked(View view) {
+        Log.d("Fragment", "on a cliké sur le bouton");
     }
 }
