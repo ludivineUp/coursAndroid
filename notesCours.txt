@@ -1,0 +1,12 @@
+Déploiement : licence google à acheter une seule fois, validité à vie
+Vérification de l'application : 
+	pas d'exceptions de levées et non traités, pas de crash de l'application
+	qualité du code : pas de virus, pas de backdoor etc
+	retour de google avec les corrections à appliquer
+	Paiement, achat : vous devez passer par les services Google qui prennent leur commission
+
+Voiture : prendre une photo d'une voiture mal garé et envoyé automatique un mail à la fake police avec la photo le lieu et la date
+Covid : envoyer la photo, le nom et prénom des personnes atteintes du covid avec affichage de ces personnes
+
+Permissions : caméra, mail, géoloc => manifest.xml
+https://developer.android.com/training/camera/photobasics#java
